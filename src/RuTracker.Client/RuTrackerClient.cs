@@ -117,7 +117,7 @@ namespace RuTracker.Client
             return Parser.ParseForumTopicsResponse(html);
         }
 
-        public async Task<byte[]> GetTopicTorrent(int topicId, CancellationToken ct = default)
+        public async Task<(byte[] body, string fileName, string disposition)> GetTopicTorrent(int topicId, CancellationToken ct = default)
         {
             var httpReq = ApiUtil.CreateGetReq(
                 url: $"/forum/dl.php?t={topicId}",
@@ -135,7 +135,7 @@ namespace RuTracker.Client
             var ms = new MemoryStream();
             const int defaultBufferSize = 81920;
             await stream.CopyToAsync(ms, defaultBufferSize, ct).ConfigureAwait(false);
-            return ms.ToArray();
+			return (ms.ToArray(), content.Headers.ContentDisposition.FileNameStar, content.Headers.ContentDisposition.ToString());
         }
     }
 }
