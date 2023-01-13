@@ -14,11 +14,14 @@ namespace RuTracker.Client.Model.GetForumTopics.Response {
         static NumberFormatInfo SizeFormat = new NumberFormatInfo { NumberDecimalSeparator = "." };
         
         public static ApproximateSize Parse(string s) {
-            const int kb = 1024;
-            const int mb = kb * kb;
-            const int gb = kb * kb * kb;
+            // const int kb = 1024;
+            // const int mb = kb * kb;
+            // const int gb = kb * kb * kb;
             var split = s.Split(' ');
-            if (split.Length != 2) throw new ArgumentException($"Can not parse size text '{s}'.", nameof(s));
+            if (split.Length != 2)
+            {
+                throw new ArgumentException($"Can not parse size text '{s}'.", nameof(s));
+            }
             var value = float.Parse(split[0], SizeFormat);
             var unitStr = split[1];
             var unit = unitStr switch {
